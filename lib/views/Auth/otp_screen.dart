@@ -203,10 +203,10 @@ class _OtpScreenState extends State<OtpScreen> {
                                 await Future.delayed(Duration(seconds: 2), () {
                                   authClass
                                       .signInwithPhoneNumber(
-                                          verificationIdFinal, smsCode, context)
-                                      .then((value) => authClass.addNumToDB(
-                                          num: widget.getNumber,
-                                          context: context));
+                                          verificationIdFinal, smsCode, context);
+                                      // .then((value) => authClass.addNumToDB(
+                                      //     num: widget.getNumber,
+                                      //     context: context));
 
                                   // check whether the state object is in tree
                                   setState(() {

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DialogBox {
-  void showAlertDialog(
+  static void showAlertDialog(
       {BuildContext context, String title, String content, Widget goTo}) {
     showDialog(
         context: context,
@@ -36,5 +36,23 @@ class DialogBox {
                     child: Text("Proceed")),
               ],
             ));
+  }
+
+  static void showAlertDialogNoOption(
+      {BuildContext context, String title, String content, Widget goTo}) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+                title: Text(title),
+                content: Text(content),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                      textStyle: TextStyle(color: Colors.red),
+                      isDefaultAction: true,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Cancel")),
+                ]));
   }
 }

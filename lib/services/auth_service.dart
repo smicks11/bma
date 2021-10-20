@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_function_declarations_over_variables, avoid_print
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bma_app/core/controller/Database/add_to_db.dart';
+import 'package:bma_app/utils/shared_prefs/user_prefs.dart';
+import 'package:bma_app/views/Admin/Auth/admin_complete_profile.dart';
 import 'package:bma_app/views/Auth/complete_profile.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -31,7 +31,6 @@ class AuthService {
     };
     PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException exception) {
-
       showSnackBar(context, exception.toString());
     };
     PhoneCodeSent codeSent =
@@ -57,34 +56,18 @@ class AuthService {
     }
   }
 
-
-  //Database Logics 
-  Future<void> addNumToDB({String num, BuildContext context, UserCredential userCredential})async{
-    try {
-      FirebaseFirestore.instance.collection("UserData").doc(userCredential.user.uid).set({
-        "PhoneNumber": num,
-        "Uid": userCredential.user.uid
-      });
-    } catch (e) {
-      print(
-        e.toString()
-      );
-    }
-  }
-
-  Future<void> completeProfileToDB({BuildContext context, String name, String email, String password, String phoneNum, UserCredential userCredential}) async {   
-    try {
-      print("Uid: ${userCredential.user.uid}");
-      await FirebaseFirestore.instance.collection("UserData").doc(userCredential.user.uid).update({
-        "fName": name,
-        "email": email,
-        "password": password,
-        "PhoneNumber": phoneNum
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  //Database Logics
+  // Future<void> addNumToDB(
+  //     {String num, BuildContext context, UserCredential userCredential}) async {
+  //   try {
+  //     FirebaseFirestore.instance
+  //         .collection("TelNumForReg")
+  //         .doc(userCredential.user.uid)
+  //         .set({"PhoneNumber": num, "Uid": userCredential.user.uid});
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   //Db Logic Ends
 
@@ -96,15 +79,43 @@ class AuthService {
 
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
+
+      //Saving to local DB
+      UserPreferences.setUserCredential(credential: userCredential);
       storeTokenAndData(userCredential);
-      addNumToDB(userCredential: userCredential);
-      _addToDb.completeProfileToDB(userCredential: userCredential);
+      // addNumToDB(userCredential: userCredential);
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (builder) => CompleteProfile()),
           (route) => false);
 
       showSnackBar(context, "Signed In");
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, "OTP is invalid");
+    }
+  }
+
+  
+  Future<void> adminSignInwithPhoneNumber(
+      String verificationId, String smsCode, BuildContext context) async {
+    try {
+      AuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: smsCode);
+
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      //Saving to local DB
+      UserPreferences.setAdminCredential(credential: userCredential);
+      storeTokenAndData(userCredential);
+      // addNumToDB(userCredential: userCredential);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (builder) => AdminCompleteProfile()),
+          (route) => false);
+
+      showSnackBar(context, "Admin Signed In");
     } catch (e) {
       print(e.toString());
       showSnackBar(context, "OTP is invalid");

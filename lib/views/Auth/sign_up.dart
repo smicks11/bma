@@ -1,6 +1,4 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
-import 'dart:async';
-
 import 'package:bma_app/services/auth_service.dart';
 import 'package:bma_app/utils/constants.dart';
 import 'package:bma_app/views/Auth/otp_screen.dart';
@@ -71,38 +69,40 @@ class _SignUpScreeenState extends State<SignUpScreeen> {
   Padding buildPhoneField() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kPad, vertical: kPad),
-      child: TextFormField(
-        textInputAction: TextInputAction.done,
-        autofocus: true,
-        controller: phoneController,
-        keyboardType: TextInputType.phone,
-        decoration: InputDecoration(
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: primaryColor),
-          ),
-          hintText: "Phone Number",
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 19, horizontal: 8),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
-            child: Text(
-              " (+234) ",
-              style: TextStyle(color: black, fontSize: 17),
+      child: Container(
+        decoration: BoxDecoration(
+            color: formBoxColor,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(14)),
+        child: TextFormField(
+          textInputAction: TextInputAction.done,
+          autofocus: true,
+          controller: phoneController,
+          keyboardType: TextInputType.phone,
+          decoration: InputDecoration(
+            border: UnderlineInputBorder(borderSide: BorderSide.none),
+            hintText: "Phone Number",
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 19, horizontal: 8),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
+              child: Text(
+                " (+234) ",
+                style: TextStyle(color: black, fontSize: 17),
+              ),
             ),
           ),
+          onChanged: (value) {
+            setState(() {
+              if (value.length > 9) {
+                isEnabled = true;
+              } else {
+                isEnabled = false;
+              }
+              savedPhoneNum = value;
+            });
+          },
         ),
-        onChanged: (value) {
-          setState(() {
-            if (value.length > 9) {
-              isEnabled = true;
-            } else {
-              isEnabled = false;
-            }
-            savedPhoneNum = value;
-          });
-          // this.phoneNo=value;
-          // print(value);
-        },
       ),
     );
   }

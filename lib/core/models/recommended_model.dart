@@ -1,0 +1,17 @@
+class RecommendedModel {
+  final List<SubRec> recommendedModel;
+
+  RecommendedModel({this.recommendedModel});
+}
+
+class SubRec {
+  final String image;
+  final String location;
+  final String name;
+  final String size;
+  final String color;
+  final String height;
+
+  SubRec({
+      this.image, this.location, this.name, this.size, this.color, this.height});
+}

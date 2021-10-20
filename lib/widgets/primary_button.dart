@@ -2,6 +2,7 @@
 
 import 'package:bma_app/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton(
@@ -32,7 +33,9 @@ class PrimaryButton extends StatelessWidget {
         onPressed: press,
         child: Text(
           text,
-          style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+          style: GoogleFonts.dmSans(
+            textStyle: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+          )
         ),
       ),
     );

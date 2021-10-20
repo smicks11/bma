@@ -1,0 +1,25 @@
+Client can view list of models and details (their pictures, first name, location, skin color, height, size)
+
+
+
+ Client can filter models based on specific criteria such as (location, skin color, height, body size etc) - Not done
+
+- Clients can select models they like
+
+- When client is done selecting, client can send request to hire selected models by click a "Let's Negotiate" button
+
+- thank you screen after client sends request ( we'll contact you shortly)
+
+- Client should be able to view their request history
+
+
+
+
+
+
+//ToDo
+
+Save Cart with shared pref
+Fix sending of cart list to asdmin server
+Add a loader before cart screen
+Implement deletion on remove text - Done 
