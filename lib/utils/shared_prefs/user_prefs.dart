@@ -6,7 +6,7 @@ class UserPreferences{
   static SharedPreferences _preferences;
   static const _keyFullName = 'fullName';
   static const _keyEmail = 'email';
-  static const _keyPassword = 'pwd';
+  // static const _keyPassword = 'pwd';
   static const _keyPhoneNum = 'phoneNum';
 
   static const _keyCredential = 'cred';
@@ -17,11 +17,14 @@ class UserPreferences{
     _preferences = await SharedPreferences.getInstance();
   }
 
-  static Future setProfileData({String name, String email, String password, String phoneNum}) async{
+  static Future setProfileData({String name, String email,}) async{
     await _preferences.setString(_keyFullName, name);
     await _preferences.setString(_keyEmail, email);
-    await _preferences.setString(_keyPassword, password);
-    await _preferences.setString(_keyPhoneNum, phoneNum);
+    // await _preferences.setString(_keyPhoneNum, phoneNum);
+  }
+
+  static Future setUserNumber({String phoneNumber}) async{
+    await _preferences.setString(_keyPhoneNum, phoneNumber);
   }
 
   static String getFullName() {
@@ -30,9 +33,9 @@ class UserPreferences{
   static String getEmail() {
    return  _preferences.getString(_keyEmail);
   }
-  static String getPwd() {
-    return _preferences.getString(_keyPassword);
-  }
+  // static String getPwd() {
+  //   return _preferences.getString(_keyPassword);
+  // }
   static String getPhoneNum() {
     return _preferences.getString(_keyPhoneNum);
   }

@@ -40,7 +40,7 @@ class BuildAuthHeader extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: kPad / 2,
+                height: kPad - 5,
               ),
               CustomText(
                 text: lastText,

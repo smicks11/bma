@@ -3,7 +3,6 @@ import 'package:bma_app/core/controller/Database/add_to_db.dart';
 import 'package:bma_app/utils/constants.dart';
 import 'package:bma_app/utils/shared_prefs/user_prefs.dart';
 import 'package:bma_app/views/Home/home.dart';
-import 'package:bma_app/widgets/custom_text.dart';
 import 'package:bma_app/widgets/dialog_box.dart';
 import 'package:bma_app/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
     super.initState();
     fullName = UserPreferences.getFullName() ?? "";
     email = UserPreferences.getEmail() ?? "";
-    savedPhoneNum = UserPreferences.getPhoneNum() ?? "";
   }
 
   @override
@@ -98,34 +96,35 @@ class _CompleteProfileState extends State<CompleteProfile> {
                         },
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: kPad - 8),
-                      decoration: BoxDecoration(
-                          color: formBoxColor,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(14)),
-                      child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.phone,
-                        style: TextStyle(fontSize: 12),
-                        decoration: InputDecoration(
-                          border:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          labelText: "Re-enter Mobile No",
-                          labelStyle: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black54,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 14, horizontal: 12),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            savedPhoneNum = value;
-                          });
-                        },
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.symmetric(vertical: kPad - 8),
+                    //   decoration: BoxDecoration(
+                    //       color: formBoxColor,
+                    //       shape: BoxShape.rectangle,
+                    //       borderRadius: BorderRadius.circular(14)),
+                    //   child: TextFormField(
+                    //     textInputAction: TextInputAction.next,
+                    //     keyboardType: TextInputType.phone,
+                    //     style: TextStyle(fontSize: 12),
+                    //     decoration: InputDecoration(
+                    //       border:
+                    //           UnderlineInputBorder(borderSide: BorderSide.none),
+                    //       labelText: "Re-enter Mobile No",
+                    //       labelStyle: TextStyle(
+                    //         fontSize: 12,
+                    //         color: Colors.black54,
+                    //       ),
+                    //       contentPadding: const EdgeInsets.symmetric(
+                    //           vertical: 14, horizontal: 12),
+                    //     ),
+                    //     onChanged: (value) {
+                    //       setState(() {
+                    //         savedPhoneNum = value;
+                    //         print(savedPhoneNum);
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: kPad - 8),
                       decoration: BoxDecoration(
@@ -191,8 +190,10 @@ class _CompleteProfileState extends State<CompleteProfile> {
                           );
                           UserPreferences.setProfileData(
                               name: fullName,
-                              email: email,
-                              phoneNum: savedPhoneNum);
+                              email: email,);
+                          print(UserPreferences.getFullName());
+                          print(UserPreferences.getPhoneNum());
+                          print(UserPreferences.getEmail());
                           setState(() {
                             loading = false;
                           });

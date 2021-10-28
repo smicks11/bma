@@ -11,9 +11,9 @@ class SubRequestHistory{
   final String clientName;
   final String ClientNumber;
   final DateTime timeOfRequest;
-  final List<SubLocation> ModelLocation;
-  final List ModelName;
-  final List ModelImage;
+  final List<dynamic> ModelLocation;
+  final List<dynamic> ModelName;
+  final List<dynamic> ModelImage;
 
   SubRequestHistory({this.clientEmail, this.clientName, this.ClientNumber, this.timeOfRequest, this.ModelLocation, this.ModelName, this.ModelImage});
 }

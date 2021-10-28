@@ -71,6 +71,13 @@ class _ModelDetailsState extends State<ModelDetails> {
               //   ],
               // ),
             ),
+            Positioned(
+              top: kPad + 10,
+              left: kPad - 15,
+              child: BackButton(
+                color: white,
+              ),
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

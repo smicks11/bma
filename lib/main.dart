@@ -1,5 +1,6 @@
 // import 'package:bma_app/views/Home/home.dart';
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print
+import 'package:bma_app/core/controller/Database/delete_from_db.dart';
 import 'package:bma_app/core/controller/Database/get_from_db.dart';
 import 'package:bma_app/core/controller/Logics/add_to_cart_logic.dart';
 import 'package:bma_app/core/controller/Logics/filter_logic.dart';
@@ -46,12 +47,14 @@ class MyApp extends StatelessWidget {
     final _addToCart = AddToCart();
     final _getFromDB = GetFromDb();
     final _filterLogic = FilterLogic();
+    final _delFromDb = DeleteFromDb();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => _appStateManager),
         ChangeNotifierProvider(create: (ctx) => _addToCart),
         ChangeNotifierProvider(create: (ctx) => _getFromDB),
         ChangeNotifierProvider(create: (ctx) => _filterLogic),
+        ChangeNotifierProvider(create: (ctx) => _delFromDb),
       ],
       child: StatusbarzCapturer(
         child: MaterialApp(

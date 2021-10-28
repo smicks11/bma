@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:bma_app/core/controller/Database/get_from_db.dart';
 import 'package:bma_app/core/models/request_history_model.dart';
@@ -60,15 +60,16 @@ class _ClientRequestState extends State<ClientRequest> {
                                 itemBuilder: (_, index) { 
                                   return GestureDetector(
                                     onTap: () {
-                                      // Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ClientRequestDetail(
-                                      //   clientEmail: _getFromDb.getSubRequestList[index].clientEmail,
-                                      //   clientNumber: _getFromDb.getSubRequestList[index].ClientNumber,
-                                      //   modelImage:  _getFromDb.getSubRequestList[index].ModelImage,
-                                      //   modelLocation: _getFromDb.getSubRequestList[index].ModelLocation,
-                                      //   modelName: _getFromDb.getSubRequestList[index].ModelName,
-                                      //   getLength:  _getFromDb.getSubRequestLength,
-
-                                      // )));
+                                      print(_getFromDb.getSubRequestLength);
+                                      print(_getFromDb.getSubRequestList[index].ModelName);
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => ClientRequestDetail(
+                                        // clientEmail: _getFromDb.getSubRequestList[index].clientName,
+                                        // clientNumber: _getFromDb.getSubRequestList[index].ClientNumber,
+                                        modelImage:  _getFromDb.getSubRequestList[index].ModelImage,
+                                        modelLocation: _getFromDb.getSubRequestList[index].ModelLocation,
+                                        modelName: _getFromDb.getSubRequestList[index].ModelName,
+                                        getLength:  _getFromDb.getSubRequestLength,
+                                      )));
                                     },
                                     child: _buildNotifications(
                                       index: index,

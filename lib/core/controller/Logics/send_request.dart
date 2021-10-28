@@ -7,8 +7,8 @@ import 'package:flutter/cupertino.dart';
 class SendRequest{
   Future sendRequest({BuildContext context, List name, List image, List location}) async{
     try {
-       FirebaseFirestore.instance.collection("ClientRequests").doc(UserPreferences.getAdminCredentialUid()).set({
-      "Uid": UserPreferences.getAdminCredentialUid(),
+       FirebaseFirestore.instance.collection("ClientRequests").doc(UserPreferences.getUserCredentialUid()).set({
+      "Uid": UserPreferences.getUserCredentialUid(),
        "ClientRequestsList": FieldValue.arrayUnion([{
          "name": name,
          "location": location,

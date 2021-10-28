@@ -82,10 +82,10 @@ class _SignInScreeenState extends State<SignInScreeen> {
                     textColor: white,
                     press: isEnabled == true
                         ? () {
-                            SignInLogic.checkPwd(
-                              password: password,
-                              context: context,
-                            );
+                            // SignInLogic.checkPwd(
+                            //   password: password,
+                            //   context: context,
+                            // );
                           }
                         : null,
                     width: MediaQuery.of(context).size.width * 0.8,

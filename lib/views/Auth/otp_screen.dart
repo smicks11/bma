@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:bma_app/services/auth_service.dart';
 import 'package:bma_app/utils/constants.dart';
+import 'package:bma_app/utils/shared_prefs/user_prefs.dart';
 import 'package:bma_app/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -204,6 +205,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                   authClass
                                       .signInwithPhoneNumber(
                                           verificationIdFinal, smsCode, context);
+                                  UserPreferences.setUserNumber(phoneNumber: widget.getNumber);
                                       // .then((value) => authClass.addNumToDB(
                                       //     num: widget.getNumber,
                                       //     context: context));

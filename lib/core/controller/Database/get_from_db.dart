@@ -178,21 +178,9 @@ class GetFromDb with ChangeNotifier {
                           ClientNumber: element['ClientNumber'],
                           timeOfRequest: DateTime.parse(
                               element['TImeOfRequest'].toDate().toString()),
-                          ModelImage: imageMap.map((imageElement) {
-                            _subImage = SubImage(
-                              image: imageElement,
-                            );
-                          }).toList(),
-                          ModelLocation: locationMap.map((locationElement) {
-                            _subLocation = SubLocation(
-                              location: locationElement,
-                            );
-                          }).toList(),
-                          ModelName: nameMap.map((nameElement) {
-                            _subName = SubName(
-                              name: nameElement,
-                            );
-                          }).toList(),
+                          ModelImage: imageMap,
+                          ModelLocation: locationMap,
+                          ModelName: nameMap,
                         );
                         newSubRequestHistory.add(_requestHistory);
 

@@ -18,7 +18,7 @@ class AddToDB {
           .set({
         "fName": name,
         "email": email,
-        "PhoneNumber": phoneNum,
+        "PhoneNumber": UserPreferences.getPhoneNum(),
         "Uid": UserPreferences.getUserCredentialUid(),
       });
     } catch (e) {

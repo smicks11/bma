@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
+import 'package:bma_app/core/controller/Database/delete_from_db.dart';
 import 'package:bma_app/core/controller/Database/get_from_db.dart';
 import 'package:bma_app/core/controller/Logics/add_to_cart_logic.dart';
 import 'package:bma_app/core/controller/Logics/send_request.dart';
@@ -21,73 +22,61 @@ class CartScreen extends StatefulWidget {
 
 AddToCart addToCart;
 GetFromDb _getFromDb;
+DeleteFromDb _delFromDB;
 
 class _CartScreenState extends State<CartScreen> {
   final _sendRequest = SendRequest();
   @override
   Widget build(BuildContext context) {
     _getFromDb = Provider.of<GetFromDb>(context, listen: false);
+    _delFromDB = Provider.of<DeleteFromDb>(context, listen: false);
     return Scaffold(
         appBar: buildAppBar(context),
         body: FutureBuilder<FirebaseCart>(
             future: _getFromDb.getCartItems(context),
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
-                return SingleChildScrollView(
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: _getFromDb.getModelCartItemsLength,
-                      itemBuilder: (BuildContext context, int index) {
-                        final item = _getFromDb.getModelCartItems[index];
-                        return Dismissible(
-                          key: Key(item.toString()),
-                          onDismissed: (direction) async {
-                            List<dynamic> selectMap = [];
-                            try {
-                              final cartCollection = FirebaseFirestore.instance
-                                  .collection("CartList")
-                                  .doc(UserPreferences.getUserCredentialUid());
-                              QuerySnapshot cartSnapshot =
-                                  await FirebaseFirestore.instance
-                                      .collection("CartList")
-                                      .get();
-                              cartSnapshot.docs.map((doc) {
-                                if (doc.get("Uid") ==
-                                    UserPreferences.getUserCredentialUid()) {
-                                  print(doc.get("Uid"));
-                                  selectMap = doc.get("selectedModels");
-                                  print(selectMap[index]);
-                                  cartCollection.update({
-                                     
-                                    "selectedModels": FieldValue.arrayRemove(
-                                        [selectMap[index]])
-                                  });
-                                }
-                              }).toList();
-                            } catch (e) {
-                              print("Swipe to delete error $e");
-                            }
-
-                            // addToCart.getCartModelList.removeAt(index);
-                            // _getFromDb.getModelCartItems.removeAt(index);
-                            // addToCart.showSnackBar(
-                            //     context, "This model has been removed");
-                          },
-                          background: Container(color: primaryColor),
-                          child: BuildCartBlock(
-                            name: _getFromDb.getModelCartItems[index].name,
-                            location:
-                                _getFromDb.getModelCartItems[index].location,
-                            image: _getFromDb.getModelCartItems[index].image,
-                            index: index,
-                          ),
-                        );
-                      }),
-                  // child: BuildCartBlock(),
-                );
+                print("There is data in the snapshot");
+                print("Number of cart $_getFromDb.getModelCartItemsLength");
+                if (_getFromDb.getModelCartItemsLength == 0) {
+                  // ignore: missing_required_param
+                  return Center(child: CustomText(text:"No model selected yet", color: black, size: 14));
+                } else {
+                  return SingleChildScrollView(
+                    child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: _getFromDb.getModelCartItemsLength,
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = _getFromDb.getModelCartItems[index];
+                          return Dismissible(
+                            key: Key(item.toString()),
+                            onDismissed: (direction) async {
+                              _delFromDB.delFromDB(
+                                index: index,
+                                context: context,
+                              );
+                              // addToCart.getCartModelList.removeAt(index);
+                              _getFromDb.getModelCartItems.removeAt(index);
+                              // addToCart.showSnackBar(
+                              //     context, "This model has been removed");
+                            },
+                            background: Container(color: primaryColor),
+                            child: BuildCartBlock(
+                              name: _getFromDb.getModelCartItems[index].name,
+                              location:
+                                  _getFromDb.getModelCartItems[index].location,
+                              image: _getFromDb.getModelCartItems[index].image,
+                              index: index,
+                            ),
+                          );
+                        }),
+                    // child: BuildCartBlock(),
+                  );
+                }
               } else {
+                print("There is no data in the snapshot!!!");
                 return Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
@@ -126,7 +115,7 @@ class _CartScreenState extends State<CartScreen> {
                 flex: 2,
                 child: PrimaryButton(
                   text: "Let's Negotiate",
-                  press: () async {
+                  press: _getFromDb.getModelCartItemsLength != 0 ? () async {
                     _sendRequest.sendRequest(
                       context: context,
                       name: _getFromDb.getModelCartItems
@@ -142,8 +131,14 @@ class _CartScreenState extends State<CartScreen> {
                     print(
                       _getFromDb.getModelCartItemsLength,
                     );
+                    print(
+                     UserPreferences.getPhoneNum(),
+                    );
+                    print(
+                     UserPreferences.getUserCredentialUid(),
+                    );
                     Navigator.pushNamed(context, '/success');
-                  },
+                  } : null,
                   textColor: white,
                 ))
           ],

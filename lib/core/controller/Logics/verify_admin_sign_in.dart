@@ -29,11 +29,11 @@ class VerifyAdmin{
       try {
         QuerySnapshot verifySnapshot = await FirebaseFirestore.instance.collection("AdminNewEntryReg").get();
         secondVerify = verifySnapshot.docs.map((doc) {
-          if(phoneNum != doc.get("PhoneNumber")){
-            showSnackBar(context, "Oops.. You are not registered as an admin");
-          } else{
-            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const Adminhome()));
+          if(phoneNum == doc.get("PhoneNumber")){
             showSnackBar(context, "You are verified as an admin");
+            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const Adminhome()));
+          } else{
+            showSnackBar(context, "Oops.. You are not registered as an admin");
           }
         }).toList();
       } catch (e) {

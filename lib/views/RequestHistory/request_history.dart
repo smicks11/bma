@@ -75,44 +75,52 @@ class _RequestHistoryState extends State<RequestHistory> {
                               //   textThree: "20 min ago",
                               // ),
                               FutureBuilder<RequestHistoryList>(
-                                future: _getFromDb.getRequestHistory(context),
-                                builder: (context, snapshot) {
-                                  if(snapshot.hasData && snapshot.data != null){
-                                     return ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: _getFromDb.getSubRequestLength,
-                                    itemBuilder: (_, index) {
-                                      return  _buildNotifications(
-                                        index: index,
-                                        textOne:
-                                            "You made a request for ${_getFromDb.getSubRequestList[index].ModelName.length} models",
-                                        textTwo: "Request Delivered",
-                                        textThree: timeago
-                                            .format(_getFromDb
-                                                .getSubRequestList[index]
-                                                .timeOfRequest)
-                                            .toString(),
-                                      );
-                                    },
-                                  );
-                                  }else if(snapshot.connectionState == ConnectionState.waiting){
-                                     return Center(
-                                      child: Container(
-                                        height: 25,
-                                        width: 25,
-                                        child: CircularProgressIndicator(
-                                          color: primaryColor,
+                                  future: _getFromDb.getRequestHistory(context),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData &&
+                                        snapshot.data != null) {
+                                      if (_getFromDb.getSubRequestLength == 0) {
+                                        return Center(
+                                          child: CustomText(
+                                              text: "No request made yet",
+                                              size: 14,
+                                              color: black),
+                                        );
+                                      } else {
+                                        return ListView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount:
+                                              _getFromDb.getSubRequestLength,
+                                          itemBuilder: (_, index) {
+                                            return _buildNotifications(
+                                              index: index,
+                                              textOne:
+                                                  "You made a request for ${_getFromDb.getSubRequestList[index].ModelName.length} models",
+                                              textTwo: "Request Delivered",
+                                              textThree: timeago
+                                                  .format(_getFromDb
+                                                      .getSubRequestList[index]
+                                                      .timeOfRequest)
+                                                  .toString(),
+                                            );
+                                          },
+                                        );
+                                      }
+                                    } else {
+                                      return Center(
+                                        child: Container(
+                                          height: 25,
+                                          width: 25,
+                                          child: CircularProgressIndicator(
+                                            color: primaryColor,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  } else {
-                                    return Center(child: CustomText(text: "No request has been made", size: 14, color: black));
-                                  }
-                                 
-                                }
-                              )
+                                      );
+                                    }
+                                  })
                             ],
                           ),
                         ]),
